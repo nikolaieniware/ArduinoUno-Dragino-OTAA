@@ -1,3 +1,9 @@
+/* ************************************************************** 
+ * Arduino sketch  (Arduino Uno and Dragino Lora Shell 868Mhz)
+ * DHT11 Sensor for  Temperature and Humidity
+ * Author: Nikolai Manchev (Eniware Open Source Association)
+ * *************************************************************/
+
 #include <lmic.h>
 #include <hal/hal.h>
 #include <SPI.h>
@@ -73,7 +79,7 @@ void setup() {
   Serial.begin(115200);
   // Wait (max 10 seconds) for the Serial Monitor
   while ((!Serial) && (millis() < 10000)){ }
-  Serial.println(F("im Niki"));
+  Serial.println(F("Im Niki"));
 
   init_node();
   init_sensor();
@@ -128,8 +134,6 @@ void do_sense() {
     return;
   }
 
-      
-   
   #ifdef DEBUG
     Serial.print(F(" temp Celcius:"));
     Serial.print(tempC);
@@ -312,17 +316,3 @@ void onEvent (ev_t ev) {
   delay(1000);
 #endif
 
-/*  // LMIC init
-  os_init();
-  // Reset the MAC state. Session and pending data transfers will be discarded.
- 
-  //LMIC_setDrTxpow(DR_SF9,20);
-  //LMIC.dn2Dr = DR_SF9;
-*/
-  // Start job (sending automatically starts OTAA too)
-  //do_send(&sendjob);
-//}
-
-//void loop() {
-  //os_runloop_once();
-//}
