@@ -13,9 +13,8 @@
 #define DHTPIN 5
 
 // This EUI must be in little-endian format, so least-significant-byte
-// first. When copying an EUI from ttnctl output, this means to reverse
-// the bytes. For TTN issued EUIs the last bytes should be 0xD5, 0xB3,
-// 0x70.
+// first.
+
 static const u1_t PROGMEM APPEUI[8] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 void os_getArtEui (u1_t* buf) {
   memcpy_P(buf, APPEUI, 8);
@@ -28,23 +27,19 @@ void os_getDevEui (u1_t* buf) {
 }
 
 // This key should be in big endian format (or, since it is not really a
-// number but a block of memory, endianness does not really apply). In
-// practice, a key taken from ttnctl can be copied as-is.
-// The key shown here is the semtech default key.
-static const u1_t PROGMEM APPKEY[16] = { 0xFC, 0xBC, 0xE5, 0x2D, 0xCF, 0x24, 0xC7, 0xCF, 0x58, 0x9C, 0x45, 0xF3, 0x0F, 0x5E, 0x68, 0x17 };
+// number but a block of memory, endianness does not really apply).
+
+static const u1_t PROGMEM APPKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 void os_getDevKey (u1_t* buf) {
   memcpy_P(buf, APPKEY, 16);
 }
 
-const unsigned TX_INTERVAL = 1;
+const unsigned TX_INTERVAL = 1;           // Time in Seconds 
 
 unsigned long starttime;
 unsigned long cycle_length = TX_INTERVAL * 1000UL; // cycle in secs;
 
 static osjob_t sendjob;
-
-// Schedule TX every this many seconds (might become longer due to duty
-// cycle limitations).
 
 
 // Pin mapping
@@ -52,7 +47,7 @@ const lmic_pinmap lmic_pins = {
   .nss = 10,
   .rxtx = LMIC_UNUSED_PIN,
   .rst = 9,
-  .dio = {2, 6, 7}, //io1 pin is connected to pin 6
+  .dio = {2, 6, 7}, // Pin Mapping for Dragino Shell
 };
 
 //Sensor Variables
@@ -249,7 +244,7 @@ void onEvent (ev_t ev) {
       Serial.println(F("EV_JOINED"));
 
       // Disable link check validation (automatically enabled
-      // during join, but not supported by TTN at this time).
+      // during join).
       //LMIC_setLinkCheckMode(0);
       break;
     case EV_RFU1:
